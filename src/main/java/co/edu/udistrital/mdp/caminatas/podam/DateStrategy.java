@@ -1,4 +1,4 @@
-package co.edu.udistrital.mdp.ZZZ.podam;
+package co.edu.udistrital.mdp.caminatas.podam;
 
 import java.lang.annotation.Annotation;
 import java.util.Calendar;
