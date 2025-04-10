@@ -61,7 +61,6 @@ pipeline {
    post {
       always {
          node {
-            cleanWs()
             deleteDir()
             dir("${env.GIT_REPO}@tmp") {
                deleteDir()
