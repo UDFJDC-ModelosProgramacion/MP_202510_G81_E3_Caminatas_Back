@@ -60,13 +60,11 @@ pipeline {
    }
    post {
       always {
-         script {
-            cleanWs()
+         cleanWs()
             deleteDir()
             dir("${env.GIT_REPO}@tmp") {
                deleteDir()
-            }
-         }
+            }         
       }
    }
 }
