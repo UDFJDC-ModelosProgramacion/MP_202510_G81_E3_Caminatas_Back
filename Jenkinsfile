@@ -60,7 +60,7 @@ pipeline {
    }
    post {
       always {
-         node ("node_labels") {
+         node ("local-agent") {
             cleanWs()
             deleteDir()
             dir("${env.GIT_REPO}@tmp") {
