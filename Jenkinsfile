@@ -7,6 +7,7 @@ pipeline {
       SONARQUBE_URL = 'http://10.20.84.26:8082/sonar'
       SONAR_TOKEN = credentials('sonar-login')
    }
+   
    stages { 
       stage('Checkout') { 
          steps {
