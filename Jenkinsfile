@@ -1,3 +1,4 @@
+//Este es el Jenkinsfile para el proyecto de Jenkins
 pipeline { 
    agent any 
    environment {
@@ -11,7 +12,10 @@ pipeline {
          steps {
             scmSkip(deleteBuild: true, skipPattern:'.*\\[ci-skip\\].*')
 
-            git branch: 'main', 
+               //git branch: 'main', 
+               //No olvidar quitar esta parte del código cuando se haga el merge a main
+               //La hice así para hacer las revisiones de los cambios en jenkins
+               git branch: 'feature/JuanLopez',
                credentialsId: env.GIT_CREDENTIAL_ID,
                url: 'https://github.com/UDFJDC-ModelosProgramacion/' + env.GIT_REPO
          }
@@ -56,11 +60,13 @@ pipeline {
    }
    post {
       always {
-        cleanWs()
-        deleteDir() 
-        dir("${env.GIT_REPO}@tmp") {
-          deleteDir()
-        }
+         script {
+            cleanWs()
+            deleteDir()
+            dir("${env.GIT_REPO}@tmp") {
+               deleteDir()
+            }
+         }
       }
    }
 }
