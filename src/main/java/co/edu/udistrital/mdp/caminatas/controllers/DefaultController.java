@@ -9,9 +9,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "Controlador por defecto", description = "Mapeo y estado del servidor")
 @RestController
-@RequestMapping("*")
+@RequestMapping("/")
 public class DefaultController {
+
+    @Operation(summary = "Mostrar el estado del servidor", description = ":)")
     @GetMapping
     @ResponseStatus(code = HttpStatus.OK)
     public Map<String, String> welcome() {

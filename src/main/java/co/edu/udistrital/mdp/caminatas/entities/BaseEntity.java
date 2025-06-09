@@ -8,12 +8,7 @@ import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 import uk.co.jemos.podam.common.PodamExclude;
 
-/**
- * Entidad genérica de la que heredan todas las entidades. Contiene la
- * referencia al atributo id
- *
- * @author ISIS2603
- */
+
 
 @Data
 @MappedSuperclass
