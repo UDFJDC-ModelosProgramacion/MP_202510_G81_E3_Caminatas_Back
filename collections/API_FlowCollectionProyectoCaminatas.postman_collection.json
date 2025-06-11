@@ -1,0 +1,3512 @@
+{
+	"info": {
+		"_postman_id": "cdb1e913-8936-4253-b4ae-fcf502dd0842",
+		"name": "API_FlowCollectionProyectoCaminatas",
+		"description": "Esta es una colección de postman para usar y probar las APIS.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43952837",
+		"_collection_link": "https://juanlopez-7777951.postman.co/workspace/Juan-Lopez's-Workspace~36df4d65-9570-47d3-81b1-2ec3590bc811/collection/43952837-cdb1e913-8936-4253-b4ae-fcf502dd0842?action=share&source=collection_link&creator=43952837"
+	},
+	"item": [
+		{
+			"name": "API_Usuarios",
+			"item": [
+				{
+					"name": "UsuarioSuperAdmin",
+					"item": [
+						{
+							"name": "LoginUsuarioSuperAdmin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Código de estado 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El cuerpo debe contener un token\", function () {\r",
+											"    let json = pm.response.json();\r",
+											"    pm.expect(json.token).to.be.a('string');\r",
+											"});\r",
+											"\r",
+											"// Guardar token automáticamente en variable de entorno\r",
+											"let json = pm.response.json();\r",
+											"pm.environment.set(\"tokenUsuarioSuperAdmin\", json.token);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"identificador\": \"admin@app.com\",\r\n  \"password\": \"Contrasena!\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/super/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"super",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearUsuarioNatural",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 201 Created\r",
+											"pm.test(\"Código de estado 201 - Usuario creado correctamente\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"// 🧪 Parsear respuesta\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"// 💾 Guardar variables de entorno\r",
+											"pm.environment.set(\"usuarioNaturalCorreo\", json.correo);\r",
+											"pm.environment.set(\"usuarioNaturalId\", json.id);\r",
+											"pm.environment.set(\"usuarioNaturalNombre\", json.nombreUsuario);\r",
+											"\r",
+											"console.log(\"📥 Usuario Natural creado y variables guardadas:\");\r",
+											"console.log(\"Usuario Natural correo:\", pm.environment.get(\"usuarioNaturalCorreo\"));\r",
+											"console.log(\"Usuario Natural id:\", pm.environment.get(\"usuarioNaturalId\"));\r",
+											"console.log(\"Usuario Natural nombreUsuario:\", pm.environment.get(\"usuarioNaturalNombre\"));\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombreUsuario\": \"juanlopez\",\r\n    \"rol\": \"NATURAL\",\r\n    \"password\": \"claveSegura123\",\r\n    \"correo\": \"feviko8117@acedby.com\",\r\n    \"cedula\": 123456789,\r\n    \"telefono\": 31245678900\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/naturales",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"naturales"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearUsuarioJuridico",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar código de estado\r",
+											"pm.test(\"Código de estado 201 - Usuario jurídico creado correctamente\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"// 🧪 Parsear respuesta\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"// ✅ Validar campos obligatorios\r",
+											"pm.test(\"La respuesta contiene todos los campos esperados\", function () {\r",
+											"    pm.expect(json).to.have.property(\"correo\");\r",
+											"    pm.expect(json).to.have.property(\"id\");\r",
+											"    pm.expect(json).to.have.property(\"nombreEmpresa\");\r",
+											"    pm.expect(json).to.have.property(\"numParticipantes\");\r",
+											"    pm.expect(json.nombresParticipantes).to.be.an(\"array\").that.has.lengthOf(json.numParticipantes);\r",
+											"});\r",
+											"\r",
+											"// 💾 Guardar variables útiles\r",
+											"pm.environment.set(\"usuarioJuridicoId\", json.id);\r",
+											"pm.environment.set(\"usuarioJuridicoCorreo\", json.correo);\r",
+											"pm.environment.set(\"usuarioJuridicoNombre\", json.nombreUsuario);\r",
+											"pm.environment.set(\"usuarioJuridicoEmpresa\", json.nombreEmpresa);\r",
+											"pm.environment.set(\"usuarioJuridicoNumParticipantes\", json.numParticipantes);\r",
+											"\r",
+											"// 🧪 Guardar la lista de participantes como JSON string (por si lo necesitas luego)\r",
+											"pm.environment.set(\"usuarioJuridicoParticipantes\", JSON.stringify(json.nombresParticipantes));\r",
+											"\r",
+											"// 📋 Log para debugging\r",
+											"console.log(\"📥 Usuario Jurídico creado:\");\r",
+											"console.log(\"Correo:\", json.correo);\r",
+											"console.log(\"Empresa:\", json.nombreEmpresa);\r",
+											"console.log(\"Participantes:\", json.nombresParticipantes);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nombreUsuario\": \"empresaX\",\r\n  \"password\": \"claveFuerte456\",\r\n  \"correo\": \"contacto@empresaxaass.com\",\r\n  \"cedula\": 99988877,\r\n  \"telefono\": 3109876543,\r\n  \"rol\": \"JURIDICO\",\r\n  \"nombreEmpresa\": \"Empresa X S.A.\",\r\n  \"nombresParticipantes\": [\r\n    \"Ana Torres\",\r\n    \"Luis Díaz\",\r\n    \"Carlos Méndez\"\r\n  ]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/juridicos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"juridicos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearUsuarioAdministradorComentarios",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar código 201 Created\r",
+											"pm.test(\"Código de estado 201 - Admin de comentarios creado\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"// 🧪 Parsear la respuesta\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"// ✅ Validar que los campos clave estén presentes\r",
+											"pm.test(\"La respuesta contiene todos los campos esperados\", function () {\r",
+											"    pm.expect(json).to.have.property(\"id\");\r",
+											"    pm.expect(json).to.have.property(\"rol\", \"ADMIN_COMENTARIOS\");\r",
+											"    pm.expect(json).to.have.property(\"correo\");\r",
+											"    pm.expect(json).to.have.property(\"nombreUsuario\");\r",
+											"});\r",
+											"\r",
+											"// 💾 Guardar variables en el entorno\r",
+											"pm.environment.set(\"adminComentariosId\", json.id);\r",
+											"pm.environment.set(\"adminComentariosCorreo\", json.correo);\r",
+											"pm.environment.set(\"adminComentariosNombre\", json.nombreUsuario);\r",
+											"pm.environment.set(\"adminComentariosTelefono\", json.telefono);\r",
+											"pm.environment.set(\"adminComentariosCedula\", json.cedula);\r",
+											"pm.environment.set(\"adminComentariosRol\", json.rol);\r",
+											"\r",
+											"// 📋 Log de confirmación\r",
+											"console.log(\"✅ Admin de comentarios creado y variables guardadas:\");\r",
+											"console.log(\"Nombre:\", json.nombreUsuario);\r",
+											"console.log(\"Correo:\", json.correo);\r",
+											"console.log(\"ID:\", json.id);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nombreUsuario\": \"mod_comentarios\",\r\n  \"password\": \"admin123\",\r\n  \"correo\": \"admin.comentarios@example.com\",\r\n  \"cedula\": 22334455,\r\n  \"telefono\": 3001122334,\r\n  \"rol\": \"ADMIN_COMENTARIOS\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/admin-comentarios/crear",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"admin-comentarios",
+										"crear"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ValidarTodosLosUsuarios",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Código de estado 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/super/usuarios/verificar-todos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"super",
+										"usuarios",
+										"verificar-todos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LoginUsuarioNatural",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Código de estado 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"El cuerpo debe contener un token\", function () {\r",
+											"    let json = pm.response.json();\r",
+											"    pm.expect(json.token).to.be.a('string');\r",
+											"});\r",
+											"\r",
+											"// Guardar token automáticamente en variable de entorno\r",
+											"let json = pm.response.json();\r",
+											"pm.environment.set(\"tokenUsuarioNatural\", json.token);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"identificador\": \"{{usuarioNaturalNombre}}\",\r\n  \"password\": \"claveSegura123\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/naturales/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"naturales",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LoginUsuarioJuridico",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Código de estado 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El cuerpo debe contener un token\", function () {\r",
+											"    let json = pm.response.json();\r",
+											"    pm.expect(json.token).to.be.a('string');\r",
+											"});\r",
+											"\r",
+											"// Guardar token automáticamente en variable de entorno\r",
+											"let json = pm.response.json();\r",
+											"pm.environment.set(\"tokenUsuarioJuridico\", json.token);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"identificador\": \"empresaX\",\r\n  \"password\": \"claveFuerte456\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/juridicos/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"juridicos",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "LoginUsuarioAdministradorComentariosApp",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Código de estado 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"El cuerpo debe contener un token\", function () {\r",
+											"    let json = pm.response.json();\r",
+											"    pm.expect(json.token).to.be.a('string');\r",
+											"});\r",
+											"\r",
+											"// Guardar token automáticamente en variable de entorno\r",
+											"let json = pm.response.json();\r",
+											"pm.environment.set(\"tokenUsuarioAdminComentarios\", json.token);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"identificador\": \"{{adminComentariosNombre}}\",\r\n  \"password\": \"admin123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/admin-comentarios/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"admin-comentarios",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearSeguroNatural",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"tipoSeguro\": \"BASICO\",\r\n  \"descripcionSeguro\": \"Seguro básico obligatorio para usuarios naturales\",\r\n  \"costoSeguro\": 15000.00\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/seguros/crear",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"seguros",
+										"crear"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearSeguroJuridico",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"tipoSeguro\": \"JURIDICO\",\r\n  \"descripcionSeguro\": \"Cobertura empresarial avanzada\",\r\n  \"costoSeguro\": 30000.00\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/seguros/crear",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"seguros",
+										"crear"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearSeguroAdicional",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar estado 201\r",
+											"pm.test(\"Código de estado 201 - Seguro adicional creado correctamente\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"// 🧪 Parsear respuesta\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"// ✅ Validar campos\r",
+											"pm.test(\"El cuerpo contiene los campos esperados\", function () {\r",
+											"    pm.expect(json).to.have.property(\"id\");\r",
+											"    pm.expect(json).to.have.property(\"tipoSeguro\", \"ADICIONAL\");\r",
+											"    pm.expect(json).to.have.property(\"descripcionSeguro\");\r",
+											"    pm.expect(json).to.have.property(\"costoSeguro\");\r",
+											"    pm.expect(json).to.have.property(\"detalleAdicional\");\r",
+											"});\r",
+											"\r",
+											"// 💾 Guardar en variables de entorno\r",
+											"pm.environment.set(\"idSeguroAdicional\", json.id);\r",
+											"pm.environment.set(\"tipoSeguroAdicional\", json.tipoSeguro);\r",
+											"pm.environment.set(\"descripcionSeguroAdicional\", json.descripcionSeguro);\r",
+											"pm.environment.set(\"detalleSeguroAdicional\", json.detalleAdicional);\r",
+											"\r",
+											"// 🧾 Consola para depuración\r",
+											"console.log(\"🛡️ Seguro adicional creado:\");\r",
+											"console.log(\"ID:\", json.id);\r",
+											"console.log(\"Tipo:\", json.tipoSeguro);\r",
+											"console.log(\"Detalle:\", json.detalleAdicional);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"tipoSeguro\": \"ADICIONAL\",\r\n  \"descripcionSeguro\": \"Cobertura contra accidentes extremos\",\r\n  \"costoSeguro\": 25000.00,\r\n  \"detalleAdicional\": \"Incluye transporte de emergencia y atención médica premium\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/seguros/crear",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"seguros",
+										"crear"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearCaminata",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que se reciba un código 201\r",
+											"pm.test(\"Código de estado 201 - Caminata creada correctamente\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"// 🧪 Parsear el cuerpo de la respuesta\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"// ✅ Validar estructura mínima esperada\r",
+											"pm.test(\"La respuesta contiene un ID válido\", function () {\r",
+											"    pm.expect(json.id).to.be.a(\"number\");\r",
+											"});\r",
+											"\r",
+											"// 💾 Guardar variables de entorno\r",
+											"pm.environment.set(\"idCaminata\", json.id);\r",
+											"pm.environment.set(\"nombreCaminata\", json.nombreCaminata);\r",
+											"pm.environment.set(\"fechaCaminata\", json.fecha);\r",
+											"pm.environment.set(\"lugarCaminata\", json.lugar);\r",
+											"\r",
+											"console.log(\"🚶 Caminata creada con éxito:\");\r",
+											"console.log(\"🆔 ID:\", json.id);\r",
+											"console.log(\"📛 Nombre:\", json.nombreCaminata);\r",
+											"console.log(\"📍 Lugar:\", json.lugar);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nombreCaminata\": \"Vuelo del Cóndor\",\r\n  \"costoCaminata\": 120000,\r\n  \"patrocinador\": \"Juan\",\r\n  \"fecha\": \"2025-04-10\",\r\n  \"hora\": \"07:00:00\",\r\n  \"lugar\": \"Páramo de Sumapaz\",\r\n  \"duracion\": \"6 horas\",\r\n  \"descripcion\": \"Observación de flora y fauna endémica\",\r\n  \"dificultad\": \"BAJA\",\r\n  \"itinerario\": \"Inicio 7am, almuerzo 12pm, regreso 3pm\",\r\n  \"recomendaciones\": \"Llevar hidratación, botas y sombrero\",\r\n  \"mapa\": {\r\n    \"descripcion\": \"Mapa de la caminata Sumapaz\",\r\n    \"coordenadasGenerales\": [\r\n      { \"latitud\": 4.12345, \"longitud\": -74.12345 },\r\n      { \"latitud\": 4.54321, \"longitud\": -74.54321 }\r\n    ],\r\n    \"rutas\": [\r\n      {\r\n        \"nombreRuta\": \"Ruta principal\",\r\n        \"descripcionRuta\": \"Ruta escénica por el páramo\",\r\n        \"coordenadas\": [\r\n          { \"latitud\": 4.12345, \"longitud\": -74.12345 },\r\n          { \"latitud\": 4.54321, \"longitud\": -74.54321 }\r\n        ]\r\n      },\r\n      {\r\n        \"nombreRuta\": \"Ruta alternativa\",\r\n        \"descripcionRuta\": \"Ruta corta para principiantes\",\r\n        \"coordenadas\": [\r\n          { \"latitud\": 4.11111, \"longitud\": -74.11111 },\r\n          { \"latitud\": 4.22222, \"longitud\": -74.22222 }\r\n        ]\r\n      }\r\n    ]\r\n  },\r\n  \"galeria\": {\r\n    \"imagenPrincipal\": \"https://mi-servidor.com/imagenes/principal.jpg\",\r\n    \"imagenesGaleria\": [\r\n      \"https://mi-servidor.com/imagenes/1.jpg\",\r\n      \"https://mi-servidor.com/imagenes/2.jpg\"\r\n    ]\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/caminatas",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"caminatas"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearInscripcion",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la inscripción se haya creado correctamente\r",
+											"pm.test(\"Código de estado 201 - Inscripción creada correctamente\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"// 🧪 Parsear la respuesta\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"// ✅ Validar campos esperados\r",
+											"pm.test(\"Respuesta contiene campos esperados\", function () {\r",
+											"    pm.expect(json).to.have.property(\"id\");\r",
+											"    pm.expect(json).to.have.property(\"usuarioId\");\r",
+											"    pm.expect(json).to.have.property(\"caminataId\");\r",
+											"    pm.expect(json).to.have.property(\"nombreUsuario\");\r",
+											"    pm.expect(json).to.have.property(\"nombreCaminata\");\r",
+											"});\r",
+											"\r",
+											"// 💾 Guardar variables útiles en el entorno\r",
+											"pm.environment.set(\"inscripcionId\", json.id);\r",
+											"pm.environment.set(\"nombreUsuarioInscrito\", json.nombreUsuario);\r",
+											"pm.environment.set(\"nombreCaminataInscrita\", json.nombreCaminata);\r",
+											"\r",
+											"console.log(\"📥 Inscripción creada:\");\r",
+											"console.log(\"🆔 ID inscripción:\", json.id);\r",
+											"console.log(\"👤 Usuario:\", json.nombreUsuario);\r",
+											"console.log(\"🥾 Caminata:\", json.nombreCaminata);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioNatural}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioJuridico}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"fechaInscripcion\": \"2025-06-01\",\r\n  \"estadoPago\": false,\r\n  \"idUsuario\": {{usuarioNaturalId}},\r\n  \"idCaminata\": {{idCaminata}}\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/inscripciones",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"inscripciones"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearFactura",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Validar que la factura se haya generado correctamente\r",
+											"pm.test(\"Código de estado 201 - Factura generada\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"// 🧪 Parsear respuesta\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"// ✅ Validar contenido de la factura\r",
+											"pm.test(\"La respuesta contiene los campos esperados\", function () {\r",
+											"    pm.expect(json).to.have.property(\"id\");\r",
+											"    pm.expect(json).to.have.property(\"total\");\r",
+											"    pm.expect(json).to.have.property(\"descripcion\");\r",
+											"    pm.expect(json).to.have.property(\"pagada\");\r",
+											"    pm.expect(json).to.have.property(\"inscripcionId\");\r",
+											"    pm.expect(json).to.have.property(\"usuarioId\");\r",
+											"});\r",
+											"\r",
+											"// 💾 Guardar datos relevantes para pruebas posteriores\r",
+											"pm.environment.set(\"facturaId\", json.id);\r",
+											"pm.environment.set(\"facturaTotal\", json.total);\r",
+											"pm.environment.set(\"facturaDescripcion\", json.descripcion);\r",
+											"pm.environment.set(\"facturaPagada\", json.pagada);\r",
+											"\r",
+											"console.log(\"📄 Factura generada con éxito:\");\r",
+											"console.log(\"🧾 ID:\", json.id);\r",
+											"console.log(\"💰 Total:\", json.total);\r",
+											"console.log(\"📝 Descripción:\", json.descripcion);\r",
+											"console.log(\"📌 Estado de pago:\", json.pagada);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioNatural}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioJuridico}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"idInscripcion\": 1,\r\n  \"seguroBasicoId\": 1,\r\n  \"segurosAdicionalesIds\": [3]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/facturas/generar",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"facturas",
+										"generar"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RegistrarPago",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioNatural}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioJuridico}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"facturaId\": 1,\r\n  \"monto\": 160000,\r\n  \"metodo\": \"MOCK\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/pagos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"pagos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CrearComentario",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que el comentario fue creado correctamente\r",
+											"pm.test(\"Código de estado 201 - Comentario creado\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"// 🧪 Parsear respuesta\r",
+											"const comentario = pm.response.json();\r",
+											"\r",
+											"// ✅ Verificar campos clave\r",
+											"pm.test(\"La respuesta contiene los campos esperados\", function () {\r",
+											"    pm.expect(comentario).to.have.property(\"id\");\r",
+											"    pm.expect(comentario).to.have.property(\"descripcionComentario\");\r",
+											"    pm.expect(comentario).to.have.property(\"calificacion\");\r",
+											"    pm.expect(comentario).to.have.property(\"estadoComentario\");\r",
+											"});\r",
+											"\r",
+											"// 💾 Guardar variables para futuras pruebas (aprobar, rechazar, eliminar, etc.)\r",
+											"pm.environment.set(\"idComentario\", comentario.id);\r",
+											"pm.environment.set(\"estadoComentario\", comentario.estadoComentario);\r",
+											"pm.environment.set(\"descripcionComentario\", comentario.descripcionComentario);\r",
+											"\r",
+											"console.log(\"💬 Comentario creado:\");\r",
+											"console.log(\"🆔 ID:\", comentario.id);\r",
+											"console.log(\"⭐ Calificación:\", comentario.calificacion);\r",
+											"console.log(\"📝 Descripción:\", comentario.descripcionComentario);\r",
+											"console.log(\"📌 Estado:\", comentario.estadoComentario);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioNatural}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"descripcionComentario\": \"Me encantó la vista. Lo recomiendo\",\r\n  \"calificacion\": 3,\r\n  \"idAutor\": {{usuarioNaturalId}},\r\n  \"idCaminata\": {{idCaminata}}\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/comentarios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"comentarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AprobarComentarioPorId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que el comentario fue creado correctamente\r",
+											"pm.test(\"Código de estado 204 - Comentario aprobado\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioAdminComentarios}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/admin-comentarios/comentarios/aprobar/{{idComentario}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"admin-comentarios",
+										"comentarios",
+										"aprobar",
+										"{{idComentario}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RechazarComentarioPorId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que el comentario fue creado correctamente\r",
+											"pm.test(\"Código de estado 204 - Comentario aprobado\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioAdminComentarios}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/admin-comentarios/comentarios/rechazar/{{idComentario}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"admin-comentarios",
+										"comentarios",
+										"rechazar",
+										"{{idComentario}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerUsuarios",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/super/usuarios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"super",
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerUsuariosPorRol",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/super/usuarios/rol/{{rolUsuarioNatural}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"super",
+										"usuarios",
+										"rol",
+										"{{rolUsuarioNatural}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerUsuariosNaturales",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar estado 200 OK\r",
+											"pm.test(\"Código de estado 200 - Lista de usuarios NATURAL obtenida\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"// 🧪 Parsear respuesta\r",
+											"const usuarios = pm.response.json();\r",
+											"\r",
+											"// ✅ Validar que la respuesta sea un arreglo\r",
+											"pm.test(\"La respuesta debe ser un arreglo\", function () {\r",
+											"    pm.expect(usuarios).to.be.an(\"array\");\r",
+											"});\r",
+											"\r",
+											"// 💡 Rol solicitado (específico para esta petición)\r",
+											"const rolEsperado = pm.environment.get(\"rolUsuarioNatural\") || \"NATURAL\";\r",
+											"\r",
+											"// ✅ Validar que todos los usuarios tengan el rol NATURAL\r",
+											"pm.test(`Todos los usuarios deben tener rol '${rolEsperado}'`, function () {\r",
+											"    usuarios.forEach(usuario => {\r",
+											"        pm.expect(usuario.rol).to.eql(rolEsperado);\r",
+											"    });\r",
+											"});\r",
+											"\r",
+											"// 🧾 Mostrar en consola los primeros resultados\r",
+											"console.log(`👤 Usuarios con rol ${rolEsperado}: ${usuarios.length}`);\r",
+											"usuarios.slice(0, 3).forEach((u, i) => {\r",
+											"    console.log(`Usuario ${i + 1}:`, {\r",
+											"        id: u.id,\r",
+											"        nombre: u.nombreUsuario,\r",
+											"        correo: u.correo,\r",
+											"        rol: u.rol\r",
+											"    });\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"rolUsuarioNatural\", \"NATURAL\");\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/super/usuarios/rol/{{rolUsuarioNatural}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"super",
+										"usuarios",
+										"rol",
+										"{{rolUsuarioNatural}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerUsuariosJuridicos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar código 200\r",
+											"pm.test(\"Código de estado 200 - Usuarios jurídicos obtenidos\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"// 🧪 Parsear respuesta\r",
+											"const usuarios = pm.response.json();\r",
+											"\r",
+											"// ✅ Validar que es un arreglo\r",
+											"pm.test(\"La respuesta debe ser un arreglo\", function () {\r",
+											"    pm.expect(usuarios).to.be.an(\"array\");\r",
+											"});\r",
+											"\r",
+											"// 🔍 Obtener rol desde variable de entorno o fallback\r",
+											"const rolEsperado = pm.environment.get(\"rolUsuarioJuridico\") || \"JURIDICO\";\r",
+											"\r",
+											"// ✅ Validar que todos tengan rol JURIDICO\r",
+											"pm.test(`Todos los usuarios deben tener rol '${rolEsperado}'`, function () {\r",
+											"    usuarios.forEach(u => {\r",
+											"        pm.expect(u.rol).to.eql(rolEsperado);\r",
+											"    });\r",
+											"});\r",
+											"\r",
+											"// 🧾 Mostrar resumen en consola\r",
+											"console.log(`🏢 Usuarios jurídicos encontrados: ${usuarios.length}`);\r",
+											"usuarios.slice(0, 3).forEach((u, i) => {\r",
+											"    console.log(`Usuario ${i + 1}:`, {\r",
+											"        id: u.id,\r",
+											"        nombre: u.nombreUsuario,\r",
+											"        correo: u.correo\r",
+											"    });\r",
+											"});\r",
+											"\r",
+											"// 💾 (Opcional) Guardar el primero\r",
+											"if (usuarios.length > 0) {\r",
+											"    const primero = usuarios[0];\r",
+											"    pm.environment.set(\"usuarioJuridicoId\", primero.id);\r",
+											"    pm.environment.set(\"usuarioJuridicoCorreo\", primero.correo);\r",
+											"    console.log(\"💾 Primer usuario jurídico guardado en variables de entorno\");\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"rolUsuarioJuridico\", \"JURIDICO\");\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/super/usuarios/rol/{{rolUsuarioJuridico}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"super",
+										"usuarios",
+										"rol",
+										"{{rolUsuarioJuridico}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerUsuariosAdministradoresComentariosApp",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar código 200 OK\r",
+											"pm.test(\"Código de estado 200 - Lista de administradores de comentarios obtenida\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"// 🧪 Parsear la respuesta\r",
+											"const usuarios = pm.response.json();\r",
+											"\r",
+											"// ✅ Validar que sea un arreglo\r",
+											"pm.test(\"La respuesta debe ser un arreglo\", function () {\r",
+											"    pm.expect(usuarios).to.be.an(\"array\");\r",
+											"});\r",
+											"\r",
+											"// 💡 Obtener el rol desde variable o usar por defecto\r",
+											"const rolEsperado = pm.environment.get(\"rolUsuarioAdministradorAppComentarios\") || \"ADMIN_COMENTARIOS\";\r",
+											"\r",
+											"// ✅ Validar que todos tengan el rol correcto\r",
+											"pm.test(`Todos los usuarios deben tener rol '${rolEsperado}'`, function () {\r",
+											"    usuarios.forEach(u => {\r",
+											"        pm.expect(u.rol).to.eql(rolEsperado);\r",
+											"    });\r",
+											"});\r",
+											"\r",
+											"// 🧾 Mostrar en consola los primeros usuarios\r",
+											"console.log(`🛠️ Usuarios con rol ${rolEsperado}: ${usuarios.length}`);\r",
+											"usuarios.slice(0, 3).forEach((u, i) => {\r",
+											"    console.log(`Usuario ${i + 1}:`, {\r",
+											"        id: u.id,\r",
+											"        nombre: u.nombreUsuario,\r",
+											"        correo: u.correo\r",
+											"    });\r",
+											"});\r",
+											"\r",
+											"// 💾 Guardar el primero (opcional)\r",
+											"if (usuarios.length > 0) {\r",
+											"    const admin = usuarios[0];\r",
+											"    pm.environment.set(\"adminComentariosId\", admin.id);\r",
+											"    pm.environment.set(\"adminComentariosCorreo\", admin.correo);\r",
+											"    console.log(\"✅ Primer moderador guardado en entorno.\");\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"rolUsuarioAdministradorAppComentarios\", \"ADMIN_COMENTARIOS\");\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/super/usuarios/rol/{{rolUsuarioAdministradorAppComentarios}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"super",
+										"usuarios",
+										"rol",
+										"{{rolUsuarioAdministradorAppComentarios}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "UsuarioAdministradorComentariosApp",
+					"item": [
+						{
+							"name": "ObtenerPerfilUsuarioAdministradorComentariosApp",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar código 200 OK\r",
+											"pm.test(\"Código de estado 200 - Perfil Usuario Admin Comentarios obtenido\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"// 🧪 Parsear la respuesta\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"// ✅ Verificar campos esperados\r",
+											"pm.test(\"La respuesta contiene los campos del perfil\", function () {\r",
+											"    pm.expect(json).to.have.property(\"id\");\r",
+											"    pm.expect(json).to.have.property(\"rol\");\r",
+											"    pm.expect(json).to.have.property(\"nombreUsuario\");\r",
+											"    pm.expect(json).to.have.property(\"correo\");\r",
+											"    pm.expect(json).to.have.property(\"cedula\");\r",
+											"    pm.expect(json).to.have.property(\"telefono\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioAdminComentarios}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/admin-comentarios/perfil",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"admin-comentarios",
+										"perfil"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerListaComentarios",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar código 200 OK\r",
+											"pm.test(\"Código de estado 200 - Comentarios obtenidos\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioAdminComentarios}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/comentarios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"comentarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerAllComentarios",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioAdminComentarios}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/admin-comentarios/comentarios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"admin-comentarios",
+										"comentarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerComentario",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioAdminComentarios}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/admin-comentarios/comentarios/{{idComentario}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"admin-comentarios",
+										"comentarios",
+										"{{idComentario}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerListaComentariosPorIdCaminata",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar código 200 OK\r",
+											"pm.test(\"Código de estado 200 - Comentarios obtenidos\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"// 🧪 Parsear la respuesta\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"// ✅ Verificar campos esperados\r",
+											"pm.test(\"La respuesta contiene los campos de comentarios por caminata\", function () {\r",
+											"    pm.expect(json).to.be.an(\"array\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioAdminComentarios}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/admin-comentarios/comentarios/caminata/{{idCaminata}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"admin-comentarios",
+										"comentarios",
+										"caminata",
+										"{{idCaminata}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerComentariosPorCaminataYIdComentario",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Fixed the expected type of response\r",
+											"pm.test(\"Código de estado 200 - Comentarios obtenidos\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"// 🧪 Parsear la respuesta\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"// ✅ Verificar campos esperados\r",
+											"pm.test(\"La respuesta contiene los campos de comentarios por caminata\", function () {\r",
+											"    pm.expect(json).to.be.an(\"object\"); // Changed from \"array\" to \"object\"\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioAdminComentarios}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/admin-comentarios/comentarios/caminata/{{idCaminata}}/comentario/{{idComentario}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"admin-comentarios",
+										"comentarios",
+										"caminata",
+										"{{idCaminata}}",
+										"comentario",
+										"{{idComentario}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "UsuarioNatural",
+					"item": [
+						{
+							"name": "ObtenerPerfilUsuarioNatural",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Validar que el status sea 200 OK\r",
+											"pm.test(\"Código de estado 200 - Perfil obtenido con éxito\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"// 🧪 Parsear la respuesta\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"// ✅ Verificar que el correo coincide con el creado previamente\r",
+											"pm.test(\"El correo del perfil coincide con el usuario creado\", function () {\r",
+											"    pm.expect(json.correo).to.eql(pm.environment.get(\"usuarioNaturalCorreo\"));\r",
+											"});\r",
+											"\r",
+											"// 💾 Actualizar (o guardar) variables de entorno por si cambian\r",
+											"pm.environment.set(\"usuarioNaturalId\", json.id);\r",
+											"pm.environment.set(\"usuarioNaturalNombre\", json.nombreUsuario);\r",
+											"pm.environment.set(\"usuarioNaturalCorreo\", json.correo);\r",
+											"pm.environment.set(\"usuarioNaturalCedula\", json.cedula);\r",
+											"pm.environment.set(\"usuarioNaturalTelefono\", json.telefono);\r",
+											"\r",
+											"console.log(\"📋 Perfil verificado y variables actualizadas\");\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioNatural}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/naturales/perfil",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"naturales",
+										"perfil"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "UsuarioJuridico",
+					"item": [
+						{
+							"name": "ObtenerPerfilUsuarioJuridico",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar código 200 OK\r",
+											"pm.test(\"Código de estado 200 - Perfil jurídico obtenido\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"// 🧪 Parsear la respuesta\r",
+											"const json = pm.response.json();\r",
+											"\r",
+											"// ✅ Verificar campos esperados\r",
+											"pm.test(\"La respuesta contiene los campos del perfil\", function () {\r",
+											"    pm.expect(json).to.have.property(\"id\");\r",
+											"    pm.expect(json).to.have.property(\"correo\");\r",
+											"    pm.expect(json).to.have.property(\"nombreUsuario\");\r",
+											"    pm.expect(json).to.have.property(\"nombreEmpresa\");\r",
+											"    pm.expect(json).to.have.property(\"numParticipantes\");\r",
+											"    pm.expect(json.nombresParticipantes).to.be.an(\"array\").that.has.lengthOf(json.numParticipantes);\r",
+											"});\r",
+											"\r",
+											"// 💾 Guardar en variables de entorno\r",
+											"pm.environment.set(\"usuarioJuridicoId\", json.id);\r",
+											"pm.environment.set(\"usuarioJuridicoCorreo\", json.correo);\r",
+											"pm.environment.set(\"usuarioJuridicoNombre\", json.nombreUsuario);\r",
+											"pm.environment.set(\"usuarioJuridicoEmpresa\", json.nombreEmpresa);\r",
+											"pm.environment.set(\"usuarioJuridicoNumParticipantes\", json.numParticipantes);\r",
+											"pm.environment.set(\"usuarioJuridicoParticipantes\", JSON.stringify(json.nombresParticipantes));\r",
+											"\r",
+											"// 📋 Debug opcional\r",
+											"console.log(\"✅ Perfil jurídico actualizado en entorno:\");\r",
+											"console.log(\"Empresa:\", json.nombreEmpresa);\r",
+											"console.log(\"Participantes:\", json.nombresParticipantes);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioJuridico}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/juridicos/perfil",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"juridicos",
+										"perfil"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "API_Seguros",
+			"item": [
+				{
+					"name": "ObtenerSeguros",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 200 OK\r",
+									"pm.test(\"Código de estado 200 - Seguros obtenidos correctamente\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// 🧪 Validar que la respuesta sea un array\r",
+									"const seguros = pm.response.json();\r",
+									"\r",
+									"pm.test(\"La respuesta debe ser un array\", function () {\r",
+									"    pm.expect(seguros).to.be.an(\"array\");\r",
+									"    pm.expect(seguros.length).to.be.above(0); // opcional, si esperas al menos un seguro\r",
+									"});\r",
+									"\r",
+									"// 🧾 Mostrar seguros en consola\r",
+									"console.log(\"📄 Lista de seguros:\");\r",
+									"seguros.forEach(seguro => {\r",
+									"    console.log(`🆔 ${seguro.id} | Tipo: ${seguro.tipoSeguro} | Costo: ${seguro.costoSeguro}`);\r",
+									"});\r",
+									"\r",
+									"// 💾 Guardar el ID del primer seguro de tipo BASICO (ejemplo)\r",
+									"const seguroBasico = seguros.find(s => s.tipoSeguro === \"BASICO\");\r",
+									"if (seguroBasico) {\r",
+									"    pm.environment.set(\"idSeguroBasico\", seguroBasico.id);\r",
+									"    console.log(\"💾 ID del primer seguro BASICO guardado:\", seguroBasico.id);\r",
+									"} else {\r",
+									"    console.warn(\"⚠️ No se encontró ningún seguro de tipo BASICO.\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/seguros",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"seguros"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerSegurosPorId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 200 OK\r",
+									"pm.test(\"Código de estado 200 - Seguros obtenidos correctamente\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/seguros/{{idSeguroBasico}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"seguros",
+								"{{idSeguroBasico}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API_Caminatas",
+			"item": [
+				{
+					"name": "ObtenerCaminatas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/caminatas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"caminatas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerCaminatasPorId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que el estado sea 200\r",
+									"pm.test(\"Código de estado 200 - Caminatas obtenidas\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioAdminComentarios}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioNatural}}",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioJuridico}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/caminatas/{{idCaminata}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"caminatas",
+								"{{idCaminata}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API_Transacciones",
+			"item": [
+				{
+					"name": "ObtenerInscripciones",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar código de estado\r",
+									"pm.test(\"Código de estado 200 - Inscripciones listadas\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// 🧪 Parsear la respuesta JSON\r",
+									"const json = pm.response.json();\r",
+									"\r",
+									"// ✅ Verificar que es un array\r",
+									"pm.test(\"La respuesta debe ser un array\", function () {\r",
+									"    pm.expect(json).to.be.an('array');\r",
+									"});\r",
+									"\r",
+									"// 💾 Si hay al menos una inscripción, guardar variables de entorno\r",
+									"if (json.length > 0) {\r",
+									"    const primera = json[0];\r",
+									"    pm.environment.set(\"idInscripcion\", primera.id);\r",
+									"    pm.environment.set(\"idUsuarioInscrito\", primera.usuarioId);\r",
+									"    pm.environment.set(\"idCaminataInscrita\", primera.caminataId);\r",
+									"    \r",
+									"    console.log(\"✅ Inscripción encontrada y variables guardadas:\");\r",
+									"    console.log(\"🆔 idInscripcion:\", primera.id);\r",
+									"    console.log(\"👤 usuarioId:\", primera.usuarioId);\r",
+									"    console.log(\"🥾 caminataId:\", primera.caminataId);\r",
+									"} else {\r",
+									"    console.warn(\"⚠️ No se encontraron inscripciones.\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/inscripciones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"inscripciones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerInscripcionPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar código de estado\r",
+									"pm.test(\"Código de estado 200 - Inscripciones listadas\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// 🧪 Parsear la respuesta JSON\r",
+									"const json = pm.response.json();\r",
+									"\r",
+									"// ✅ Verificar que es un array\r",
+									"pm.test(\"La respuesta debe ser un array\", function () {\r",
+									"    pm.expect(json).to.be.an('array');\r",
+									"});\r",
+									"\r",
+									"// 💾 Si hay al menos una inscripción, guardar variables de entorno\r",
+									"if (json.length > 0) {\r",
+									"    const primera = json[0];\r",
+									"    pm.environment.set(\"idInscripcion\", primera.id);\r",
+									"    pm.environment.set(\"idUsuarioInscrito\", primera.usuarioId);\r",
+									"    pm.environment.set(\"idCaminataInscrita\", primera.caminataId);\r",
+									"    \r",
+									"    console.log(\"✅ Inscripción encontrada y variables guardadas:\");\r",
+									"    console.log(\"🆔 idInscripcion:\", primera.id);\r",
+									"    console.log(\"👤 usuarioId:\", primera.usuarioId);\r",
+									"    console.log(\"🥾 caminataId:\", primera.caminataId);\r",
+									"} else {\r",
+									"    console.warn(\"⚠️ No se encontraron inscripciones.\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fechaInscripcion\": \"2025-05-20\",\r\n    \"usuario\": {\r\n        \"id\": {{usuarioNaturalId}}\r\n    },\r\n    \"caminata\": {\r\n        \"id\": {{idCaminata}}\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/inscripciones",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"inscripciones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerPagos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que se obtuvo una respuesta exitosa\r",
+									"pm.test(\"Código de estado 200 - Pagos obtenidos\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// 🧪 Parsear la respuesta JSON\r",
+									"const pagos = pm.response.json();\r",
+									"\r",
+									"// ✅ Verificar que la respuesta sea un array\r",
+									"pm.test(\"La respuesta debe ser un array de pagos\", function () {\r",
+									"    pm.expect(pagos).to.be.an(\"array\");\r",
+									"});\r",
+									"\r",
+									"// 💾 Si hay pagos, guardar el primero\r",
+									"if (pagos.length > 0) {\r",
+									"    const pago = pagos[0];\r",
+									"    pm.environment.set(\"pagoId\", pago.id);\r",
+									"    pm.environment.set(\"pagoEstado\", pago.estado);\r",
+									"    pm.environment.set(\"pagoMetodo\", pago.metodo);\r",
+									"    pm.environment.set(\"pagoMonto\", pago.monto);\r",
+									"    pm.environment.set(\"pagoFacturaId\", pago.facturaId);\r",
+									"    \r",
+									"    console.log(\"💰 Primer pago encontrado:\");\r",
+									"    console.log(\"🆔 ID:\", pago.id);\r",
+									"    console.log(\"💳 Método:\", pago.metodo);\r",
+									"    console.log(\"📅 Fecha:\", pago.fechaPago);\r",
+									"    console.log(\"📌 Estado:\", pago.estado);\r",
+									"} else {\r",
+									"    console.warn(\"⚠️ No se encontraron pagos para ese usuario/caminata.\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"usuario\": {\r\n        \"id\": {{usuarioNaturalId}}\r\n    },\r\n    \"caminata\": {\r\n        \"id\": {{idCaminata}}\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/pagos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"pagos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerPagoPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que se obtuvo una respuesta exitosa\r",
+									"pm.test(\"Código de estado 200 - Pagos obtenidos\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"estadoPago\": true,\r\n    \"usuario\": {\r\n        \"id\": {{usuarioNaturalId}}\r\n    },\r\n    \"caminata\": {\r\n        \"id\": {{idCaminata}}\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/pagos/{{pagoId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"pagos",
+								"{{pagoId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerFacturas",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar estado 200\r",
+									"pm.test(\"Código de estado 200 - Facturas obtenidas correctamente\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// 🧪 Parsear la respuesta\r",
+									"const facturas = pm.response.json();\r",
+									"\r",
+									"// ✅ Validar que la respuesta sea un array\r",
+									"pm.test(\"Debe ser un arreglo de facturas\", function () {\r",
+									"    pm.expect(facturas).to.be.an(\"array\");\r",
+									"});\r",
+									"\r",
+									"// 💾 Si hay facturas, guardar la primera\r",
+									"if (facturas.length > 0) {\r",
+									"    const factura = facturas[0];\r",
+									"\r",
+									"    pm.environment.set(\"facturaId\", factura.id);\r",
+									"    pm.environment.set(\"facturaPagada\", factura.pagada);\r",
+									"    pm.environment.set(\"facturaDescripcion\", factura.descripcion);\r",
+									"    pm.environment.set(\"facturaTotal\", factura.total);\r",
+									"    pm.environment.set(\"facturaInscripcionId\", factura.inscripcionId);\r",
+									"\r",
+									"    console.log(\"🧾 Factura encontrada:\");\r",
+									"    console.log(\"ID:\", factura.id);\r",
+									"    console.log(\"Total:\", factura.total);\r",
+									"    console.log(\"Pagada:\", factura.pagada);\r",
+									"    console.log(\"Descripción:\", factura.descripcion);\r",
+									"\r",
+									"    // 🧾 Si tiene pagos, guardar el primero\r",
+									"    if (Array.isArray(factura.pagos) && factura.pagos.length > 0) {\r",
+									"        const pago = factura.pagos[0];\r",
+									"        pm.environment.set(\"pagoId\", pago.id);\r",
+									"        pm.environment.set(\"pagoEstado\", pago.estado);\r",
+									"        pm.environment.set(\"pagoMetodo\", pago.metodo);\r",
+									"        pm.environment.set(\"pagoFecha\", pago.fechaPago);\r",
+									"        pm.environment.set(\"pagoMonto\", pago.monto);\r",
+									"\r",
+									"        console.log(\"💳 Pago encontrado:\");\r",
+									"        console.log(\"ID:\", pago.id);\r",
+									"        console.log(\"Monto:\", pago.monto);\r",
+									"        console.log(\"Estado:\", pago.estado);\r",
+									"        console.log(\"Método:\", pago.metodo);\r",
+									"    } else {\r",
+									"        console.warn(\"⚠️ La factura no tiene pagos asociados.\");\r",
+									"    }\r",
+									"\r",
+									"} else {\r",
+									"    console.warn(\"⚠️ No se encontraron facturas.\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"usuario\": {\r\n        \"id\": {{usuarioNaturalId}}\r\n    },\r\n    \"caminata\": {\r\n        \"id\": {{idCaminata}}\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/facturas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"facturas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerFacturaPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar estado 200\r",
+									"pm.test(\"Código de estado 200 - Facturas obtenidas correctamente\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/facturas/{{facturaId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"facturas",
+								"{{facturaId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API_ContenidosCaminatas",
+			"item": [
+				{
+					"name": "CrearBlog",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar código de estado 201\r",
+									"pm.test(\"Código de estado 201 - Blog creado correctamente\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"// 🧪 Parsear la respuesta JSON\r",
+									"const blog = pm.response.json();\r",
+									"\r",
+									"// ✅ Validar estructura esperada\r",
+									"pm.test(\"La respuesta contiene los campos esperados\", function () {\r",
+									"    pm.expect(blog).to.have.property(\"id\");\r",
+									"    pm.expect(blog).to.have.property(\"title\");\r",
+									"    pm.expect(blog).to.have.property(\"content\");\r",
+									"    pm.expect(blog).to.have.property(\"imagenes\").that.is.an(\"array\");\r",
+									"    pm.expect(blog).to.have.property(\"videos\").that.is.an(\"array\");\r",
+									"    pm.expect(blog).to.have.nested.property(\"autor.id\");\r",
+									"    pm.expect(blog).to.have.nested.property(\"autor.nombreUsuario\");\r",
+									"});\r",
+									"\r",
+									"// 💾 Guardar variables útiles\r",
+									"pm.environment.set(\"blogId\", blog.id);\r",
+									"pm.environment.set(\"blogTitulo\", blog.title);\r",
+									"pm.environment.set(\"blogAutorId\", blog.autor.id);\r",
+									"pm.environment.set(\"blogAutorNombre\", blog.autor.nombreUsuario);\r",
+									"\r",
+									"// 🧾 Mostrar resumen en consola\r",
+									"console.log(\"📝 Blog creado:\");\r",
+									"console.log(\"🆔 ID:\", blog.id);\r",
+									"console.log(\"📌 Título:\", blog.title);\r",
+									"console.log(\"👤 Autor:\", blog.autor.nombreUsuario);\r",
+									"console.log(\"🖼️ Imágenes:\", blog.imagenes.join(\", \"));\r",
+									"console.log(\"🎥 Videos:\", blog.videos.join(\", \"));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Nueva caminata en la montaña\",\r\n  \"content\": \"Una experiencia única.\",\r\n  \"autorId\": 2,\r\n  \"imagenes\": [\"https://example.com/img1.jpg\", \"https://example.com/img2.jpg\"],\r\n  \"videos\": [\"https://example.com/video1.mp4\"],\r\n  \"contenidoTextoBlog\": \"Texto largo del blog opcional\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/blogs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"blogs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CrearGaleria",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Validar código de estado\r",
+									"pm.test(\"Código de estado 201 - Galería creada correctamente\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"// 🧪 Parsear la respuesta\r",
+									"const galeria = pm.response.json();\r",
+									"\r",
+									"// ✅ Validar estructura\r",
+									"pm.test(\"La respuesta contiene los campos esperados\", function () {\r",
+									"    pm.expect(galeria).to.have.property(\"id\");\r",
+									"    pm.expect(galeria).to.have.property(\"imagenPrincipal\");\r",
+									"    pm.expect(galeria).to.have.property(\"imagenesGaleria\").that.is.an(\"array\");\r",
+									"});\r",
+									"\r",
+									"// 💾 Guardar variables de entorno\r",
+									"pm.environment.set(\"galeriaId\", galeria.id);\r",
+									"pm.environment.set(\"imagenPrincipalGaleria\", galeria.imagenPrincipal);\r",
+									"\r",
+									"console.log(\"🖼️ Galería creada:\");\r",
+									"console.log(\"🆔 ID:\", galeria.id);\r",
+									"console.log(\"📷 Imagen principal:\", galeria.imagenPrincipal);\r",
+									"console.log(\"🖼️ Imágenes:\", galeria.imagenesGaleria.join(\", \"));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenUsuarioNatural}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"imagenPrincipal\": \"https://mi-servidor.com/imagenes/principal.jpg\",\r\n  \"imagenesGaleria\": [\r\n    \"https://mi-servidor.com/imagenes/1.jpg\",\r\n    \"https://mi-servidor.com/imagenes/2.jpg\",\r\n    \"https://mi-servidor.com/imagenes/3.jpg\"\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/galerias",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"galerias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CrearMapa",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar estado 201\r",
+									"pm.test(\"Código de estado 201 - Mapa creado correctamente\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"// 🧪 Parsear la respuesta\r",
+									"const mapa = pm.response.json();\r",
+									"\r",
+									"// ✅ Validar estructura del mapa\r",
+									"pm.test(\"El objeto mapa contiene los campos esperados\", function () {\r",
+									"    pm.expect(mapa).to.have.property(\"id\");\r",
+									"    pm.expect(mapa).to.have.property(\"descripcion\");\r",
+									"    pm.expect(mapa).to.have.property(\"coordenadasGenerales\").that.is.an(\"array\");\r",
+									"    pm.expect(mapa).to.have.property(\"rutas\").that.is.an(\"array\");\r",
+									"});\r",
+									"\r",
+									"// 💾 Guardar datos importantes\r",
+									"pm.environment.set(\"mapaId\", mapa.id);\r",
+									"pm.environment.set(\"mapaDescripcion\", mapa.descripcion);\r",
+									"\r",
+									"// 🚶 Guardar info de la primera ruta si existe\r",
+									"if (mapa.rutas.length > 0) {\r",
+									"    const ruta = mapa.rutas[0];\r",
+									"    pm.environment.set(\"nombreRuta\", ruta.nombreRuta);\r",
+									"    pm.environment.set(\"descripcionRuta\", ruta.descripcionRuta);\r",
+									"    console.log(\"🗺️ Ruta registrada:\", ruta.nombreRuta);\r",
+									"}\r",
+									"\r",
+									"// 🧾 Consola para referencia\r",
+									"console.log(\"🗺️ Mapa creado:\");\r",
+									"console.log(\"ID:\", mapa.id);\r",
+									"console.log(\"Descripción:\", mapa.descripcion);\r",
+									"console.log(\"Rutas:\", mapa.rutas.map(r => r.nombreRuta).join(\", \"));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TokenUsuarioNatural}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"descripcion\": \"Mapa para la caminata por el cerro\",\r\n  \"coordenadasGenerales\": [\r\n    { \"latitud\": 4.60971, \"longitud\": -74.08175 }\r\n  ],\r\n  \"rutas\": [\r\n    {\r\n      \"nombreRuta\": \"Ruta Norte\",\r\n      \"descripcionRuta\": \"Tramo con bosque denso\",\r\n      \"coordenadas\": [\r\n        { \"latitud\": 4.610, \"longitud\": -74.080 },\r\n        { \"latitud\": 4.612, \"longitud\": -74.082 }\r\n      ]\r\n    }\r\n    \r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/mapas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"mapas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerBlogs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar estado 200\r",
+									"pm.test(\"Código de estado 201 - Blog obtenido correctamente\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/blogs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"blogs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerBlogPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar estado 200\r",
+									"pm.test(\"Código de estado 200 - Blog obtenido correctamente\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/blogs/{{blogId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"blogs",
+								"{{blogId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerGalerias",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar estado 200\r",
+									"pm.test(\"Código de estado 200 - Galeria obtenida correctamente\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/galerias",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"galerias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerGaleriasPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar estado 200\r",
+									"pm.test(\"Código de estado 200 - Galeria obtenida correctamente\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/galerias/{{galeriaId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"galerias",
+								"{{galeriaId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerComentarios",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar estado 200\r",
+									"pm.test(\"Código de estado 200 - Comentarios obtenidos correctamente\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/comentarios",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"comentarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerComentarioPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar estado 200\r",
+									"pm.test(\"Código de estado 200 - Comentario obtenido correctamente\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/comentarios/{{idComentario}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"comentarios",
+								"{{idComentario}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API_Actualizations",
+			"item": [
+				{
+					"name": "ActualizarUsuarioJuridico",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Validar código de estado\r",
+									"pm.test(\"Código de estado 200 - Perfil actualizado\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// 🧪 Parsear respuesta\r",
+									"const json = pm.response.json();\r",
+									"\r",
+									"// ✅ Validar que se actualizaron correctamente los campos clave\r",
+									"pm.test(\"El perfil contiene datos válidos\", function () {\r",
+									"    pm.expect(json).to.have.property(\"nombreEmpresa\", \"Empresa X S.A.\");\r",
+									"    pm.expect(json).to.have.property(\"correo\", pm.environment.get(\"usuarioJuridicoCorreo\"));\r",
+									"    pm.expect(json.nombresParticipantes).to.be.an(\"array\").that.includes(\"Ana Torres\");\r",
+									"    pm.expect(json.numParticipantes).to.eql(json.nombresParticipantes.length);\r",
+									"});\r",
+									"\r",
+									"// 💾 Guardar variables actualizadas\r",
+									"pm.environment.set(\"usuarioJuridicoId\", json.id);\r",
+									"pm.environment.set(\"usuarioJuridicoNombre\", json.nombreUsuario);\r",
+									"pm.environment.set(\"usuarioJuridicoCorreo\", json.correo);\r",
+									"pm.environment.set(\"usuarioJuridicoEmpresa\", json.nombreEmpresa);\r",
+									"pm.environment.set(\"usuarioJuridicoNumParticipantes\", json.numParticipantes);\r",
+									"pm.environment.set(\"usuarioJuridicoParticipantes\", JSON.stringify(json.nombresParticipantes));\r",
+									"\r",
+									"// 🧾 Log de confirmación\r",
+									"console.log(\"✅ Perfil jurídico actualizado:\");\r",
+									"console.log(\"Empresa:\", json.nombreEmpresa);\r",
+									"console.log(\"Participantes:\", json.nombresParticipantes);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioJuridico}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombreUsuario\": \"empresaX\",\r\n  \"password\": \"claveFuerte456\",\r\n  \"correo\": \"contacto@empresaxaass.com\",\r\n  \"cedula\": 99988877,\r\n  \"telefono\": 3109876543,\r\n  \"rol\": \"JURIDICO\",\r\n  \"nombreEmpresa\": \"Empresa X S.A.\",\r\n  \"nombresParticipantes\": [\r\n    \"Ana Torres\",\r\n    \"Luis Díaz\",\r\n    \"Carlos Méndez\"\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuarios/juridicos/actualizar",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios",
+								"juridicos",
+								"actualizar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarUsuarioJuridicoPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar estado 200 OK\r",
+									"pm.test(\"Código de estado 200 - Usuario JURIDICO actualizado correctamente\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// 🧪 Parsear JSON\r",
+									"const json = pm.response.json();\r",
+									"\r",
+									"// ✅ Validar estructura de respuesta\r",
+									"pm.test(\"La respuesta contiene los campos esperados\", function () {\r",
+									"    pm.expect(json).to.have.property(\"id\");\r",
+									"    pm.expect(json).to.have.property(\"rol\", \"JURIDICO\");\r",
+									"    pm.expect(json).to.have.property(\"correo\");\r",
+									"    pm.expect(json).to.have.property(\"nombreUsuario\");\r",
+									"    //pm.expect(json).to.have.property(\"nombreEmpresa\");\r",
+									"    //pm.expect(json).to.have.property(\"numParticipantes\");\r",
+									"    //pm.expect(json).to.have.property(\"nombresParticipantes\").that.is.an(\"array\");\r",
+									"});\r",
+									"\r",
+									"// 💾 Guardar variables útiles\r",
+									"pm.environment.set(\"usuarioJuridicoId\", json.id);\r",
+									"pm.environment.set(\"usuarioJuridicoCorreo\", json.correo);\r",
+									"pm.environment.set(\"usuarioJuridicoNombre\", json.nombreUsuario);\r",
+									"pm.environment.set(\"usuarioJuridicoEmpresa\", json.nombreEmpresa);\r",
+									"\r",
+									"// 🧾 Mostrar en consola\r",
+									"console.log(\"✅ Usuario JURIDICO actualizado:\");\r",
+									"console.log(\"ID:\", json.id);\r",
+									"console.log(\"Correo:\", json.correo);\r",
+									"console.log(\"Empresa:\", json.nombreEmpresa);\r",
+									"\r",
+									"if (Array.isArray(json.nombresParticipantes)) {\r",
+									"    console.log(\"Participantes:\", json.nombresParticipantes.join(\", \"));\r",
+									"} else {\r",
+									"    console.log(\"Participantes: ❌ No definidos o no es un array\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombreUsuario\": \"empresaXactualizada\",\r\n  \"password\": \"nuevaClaveFuerte456\",\r\n  \"correo\": \"contacto@empresa-actualizada.com\",\r\n  \"cedula\": 99887766,\r\n  \"telefono\": 3109998888,\r\n  \"rol\": \"JURIDICO\",\r\n  \"nombreEmpresa\": \"Empresa Actualizada S.A.\",\r\n  \"nombresParticipantes\": [\r\n    \"Carlos Sánchez\",\r\n    \"Laura Gómez\",\r\n    \"Esteban Ramírez\"\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin/super/usuarios/juridico/{{usuarioJuridicoId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin",
+								"super",
+								"usuarios",
+								"juridico",
+								"{{usuarioJuridicoId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarUsuarioAdministradorComentarios",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar estado 200 OK\r",
+									"pm.test(\"Código de estado 200 - Admin de comentarios actualizado correctamente\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// 🧪 Parsear respuesta\r",
+									"const json = pm.response.json();\r",
+									"\r",
+									"// ✅ Validar contenido mínimo\r",
+									"pm.test(\"La respuesta contiene los campos esperados\", function () {\r",
+									"    pm.expect(json).to.have.property(\"id\");\r",
+									"    pm.expect(json).to.have.property(\"rol\", \"ADMIN_COMENTARIOS\");\r",
+									"    pm.expect(json).to.have.property(\"correo\");\r",
+									"    pm.expect(json).to.have.property(\"nombreUsuario\");\r",
+									"});\r",
+									"\r",
+									"// 💾 Guardar variables útiles\r",
+									"pm.environment.set(\"adminComentariosId\", json.id);\r",
+									"pm.environment.set(\"adminComentariosCorreo\", json.correo);\r",
+									"pm.environment.set(\"adminComentariosNombre\", json.nombreUsuario);\r",
+									"\r",
+									"// 🧾 Mostrar en consola\r",
+									"console.log(\"✅ Moderador actualizado:\");\r",
+									"console.log(\"ID:\", json.id);\r",
+									"console.log(\"Correo:\", json.correo);\r",
+									"console.log(\"Nombre:\", json.nombreUsuario);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioAdminComentarios}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombreUsuario\": \"mod_comentarios\",\r\n  \"password\": \"admin123\",\r\n  \"correo\": \"admin.comentarios@example.com\",\r\n  \"cedula\": 22334455,\r\n  \"telefono\": 3001122334,\r\n  \"rol\": \"ADMIN_COMENTARIOS\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuarios/admin-comentarios/actualizar-perfil",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios",
+								"admin-comentarios",
+								"actualizar-perfil"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarUsuarioAdministradorComentariosPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar estado 200 OK\r",
+									"pm.test(\"Código de estado 200 - Admin de comentarios actualizado correctamente\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// 🧪 Parsear respuesta\r",
+									"const json = pm.response.json();\r",
+									"\r",
+									"// ✅ Validar contenido mínimo\r",
+									"pm.test(\"La respuesta contiene los campos esperados\", function () {\r",
+									"    pm.expect(json).to.have.property(\"id\");\r",
+									"    pm.expect(json).to.have.property(\"rol\", \"ADMIN_COMENTARIOS\");\r",
+									"    pm.expect(json).to.have.property(\"correo\");\r",
+									"    pm.expect(json).to.have.property(\"nombreUsuario\");\r",
+									"});\r",
+									"\r",
+									"// 💾 Guardar variables útiles\r",
+									"pm.environment.set(\"adminComentariosId\", json.id);\r",
+									"pm.environment.set(\"adminComentariosCorreo\", json.correo);\r",
+									"pm.environment.set(\"adminComentariosNombre\", json.nombreUsuario);\r",
+									"\r",
+									"// 🧾 Mostrar en consola\r",
+									"console.log(\"✅ Moderador actualizado:\");\r",
+									"console.log(\"ID:\", json.id);\r",
+									"console.log(\"Correo:\", json.correo);\r",
+									"console.log(\"Nombre:\", json.nombreUsuario);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombreUsuario\": \"mod_actualizado\",\r\n  \"password\": \"nuevaClave123!\",\r\n  \"correo\": \"moderador.actualizado@example.com\",\r\n  \"cedula\": 123123123,\r\n  \"telefono\": 3003003030\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin/super/usuarios/admin-comentarios/{{adminComentariosId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin",
+								"super",
+								"usuarios",
+								"admin-comentarios",
+								"{{adminComentariosId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarUsuarioNatural",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar respuesta 200 OK\r",
+									"pm.test(\"Código de estado 200 - Usuario NATURAL actualizado\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// 🧪 Parsear respuesta\r",
+									"const json = pm.response.json();\r",
+									"\r",
+									"// ✅ Validar contenido mínimo\r",
+									"pm.test(\"El cuerpo debe contener los campos esperados\", function () {\r",
+									"    pm.expect(json).to.have.property(\"id\");\r",
+									"    pm.expect(json).to.have.property(\"rol\", \"NATURAL\");\r",
+									"    pm.expect(json).to.have.property(\"correo\");\r",
+									"    pm.expect(json).to.have.property(\"nombreUsuario\");\r",
+									"});\r",
+									"\r",
+									"// 💾 Actualizar entorno si se modificó algo\r",
+									"pm.environment.set(\"usuarioNaturalCorreo\", json.correo);\r",
+									"pm.environment.set(\"usuarioNaturalNombre\", json.nombreUsuario);\r",
+									"pm.environment.set(\"usuarioNaturalId\", json.id);\r",
+									"\r",
+									"// 🧾 Consola para depuración\r",
+									"console.log(\"✅ Usuario NATURAL actualizado:\");\r",
+									"console.log(\"ID:\", json.id);\r",
+									"console.log(\"Correo:\", json.correo);\r",
+									"console.log(\"Nombre:\", json.nombreUsuario);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioNatural}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombreUsuario\": \"juanperez\",\r\n    \"rol\": \"NATURAL\",\r\n    \"password\": \"claveSegura1234\",\r\n    \"correo\": \"{{usuarioNaturalCorreo}}\",//En realidad aquí podriamos poner cualquier correo pero eso rompe el token y el flujo de las pruebas\r\n    \"cedula\": 12345678,\r\n    \"telefono\": 3124567890\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuarios/naturales/actualizar-perfil",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios",
+								"naturales",
+								"actualizar-perfil"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarUsuarioNaturalPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar respuesta 200 OK\r",
+									"pm.test(\"Código de estado 200 - Usuario NATURAL actualizado\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// 🧪 Parsear respuesta\r",
+									"const json = pm.response.json();\r",
+									"\r",
+									"// ✅ Validar contenido mínimo\r",
+									"pm.test(\"El cuerpo debe contener los campos esperados\", function () {\r",
+									"    pm.expect(json).to.have.property(\"id\");\r",
+									"    pm.expect(json).to.have.property(\"rol\", \"NATURAL\");\r",
+									"    pm.expect(json).to.have.property(\"correo\");\r",
+									"    pm.expect(json).to.have.property(\"nombreUsuario\");\r",
+									"});\r",
+									"\r",
+									"// 💾 Actualizar entorno si se modificó algo\r",
+									"pm.environment.set(\"usuarioNaturalCorreo\", json.correo);\r",
+									"pm.environment.set(\"usuarioNaturalNombre\", json.nombreUsuario);\r",
+									"pm.environment.set(\"usuarioNaturalId\", json.id);\r",
+									"\r",
+									"// 🧾 Consola para depuración\r",
+									"console.log(\"✅ Usuario NATURAL actualizado:\");\r",
+									"console.log(\"ID:\", json.id);\r",
+									"console.log(\"Correo:\", json.correo);\r",
+									"console.log(\"Nombre:\", json.nombreUsuario);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombreUsuario\": \"juanprez\",\r\n    \"rol\": \"NATURAL\",\r\n    \"password\": \"claveSegura123\",\r\n    \"correo\": \"juan.peez@example.com\",\r\n    \"cedula\": 123456789,\r\n    \"telefono\": 31245678900\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin/super/usuarios/natural/{{usuarioNaturalId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin",
+								"super",
+								"usuarios",
+								"natural",
+								"{{usuarioNaturalId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarCaminataPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que el estado sea 200\r",
+									"pm.test(\"Código de estado 200 - Caminata actualizada\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// 🧪 Parsear la respuesta\r",
+									"const caminata = pm.response.json();\r",
+									"\r",
+									"// 🔍 Validar campos esenciales\r",
+									"pm.test(\"La caminata debe tener un ID válido\", function () {\r",
+									"    pm.expect(caminata.id).to.be.a(\"number\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Debe tener nombre y lugar definidos\", function () {\r",
+									"    pm.expect(caminata.nombreCaminata).to.be.a(\"string\");\r",
+									"    pm.expect(caminata.lugar).to.be.a(\"string\");\r",
+									"});\r",
+									"\r",
+									"// 💾 Actualizar variables de entorno\r",
+									"pm.environment.set(\"idCaminata\", caminata.id);\r",
+									"pm.environment.set(\"nombreCaminata\", caminata.nombreCaminata);\r",
+									"pm.environment.set(\"fechaCaminata\", caminata.fecha);\r",
+									"pm.environment.set(\"lugarCaminata\", caminata.lugar);\r",
+									"\r",
+									"// 📋 Mostrar resumen en consola\r",
+									"console.log(\"✅ Caminata actualizada y guardada:\");\r",
+									"console.log(\"🆔 ID:\", caminata.id);\r",
+									"console.log(\"📛 Nombre:\", caminata.nombreCaminata);\r",
+									"console.log(\"📅 Fecha:\", caminata.fecha);\r",
+									"console.log(\"📍 Lugar:\", caminata.lugar);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombreCaminata\": \"Vuelo del Cóndor\",\r\n  \"costoCaminata\": 120000,\r\n  \"patrocinador\": \"Juan\",\r\n  \"fecha\": \"2025-04-10\",\r\n  \"hora\": \"07:00:00\",\r\n  \"lugar\": \"Páramo de Sumapaz\",\r\n  \"duracion\": \"6 horas\",\r\n  \"descripcion\": \"Observación de flora y fauna endémica\",\r\n  \"dificultad\": \"BAJA\",\r\n  \"itinerario\": \"Inicio 7am, almuerzo 12pm, regreso 3pm\",\r\n  \"recomendaciones\": \"Llevar hidratación, botas y sombrero\",\r\n  \"mapa\": {\r\n    \"descripcion\": \"Mapa de la caminata Sumapaz\",\r\n    \"coordenadasGenerales\": [\r\n      { \"latitud\": 4.12345, \"longitud\": -74.12345 },\r\n      { \"latitud\": 4.54321, \"longitud\": -74.54321 }\r\n    ],\r\n    \"rutas\": [\r\n      {\r\n        \"nombreRuta\": \"Ruta principal\",\r\n        \"descripcionRuta\": \"Ruta escénica por el páramo\",\r\n        \"coordenadas\": [\r\n          { \"latitud\": 4.12345, \"longitud\": -74.12345 },\r\n          { \"latitud\": 4.54321, \"longitud\": -74.54321 }\r\n        ]\r\n      },\r\n      {\r\n        \"nombreRuta\": \"Ruta alternativa\",\r\n        \"descripcionRuta\": \"Ruta corta para principiantes\",\r\n        \"coordenadas\": [\r\n          { \"latitud\": 4.11111, \"longitud\": -74.11111 },\r\n          { \"latitud\": 4.22222, \"longitud\": -74.22222 }\r\n        ]\r\n      }\r\n    ]\r\n  },\r\n  \"galeria\": {\r\n    \"imagenPrincipal\": \"https://mi-servidor.com/imagenes/principal.jpg\",\r\n    \"imagenesGaleria\": [\r\n      \"https://mi-servidor.com/imagenes/1.jpg\",\r\n      \"https://mi-servidor.com/imagenes/2.jpg\"\r\n    ]\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/caminatas/{{idCaminata}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"caminatas",
+								"{{idCaminata}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarComentarioPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar estado 200\r",
+									"pm.test(\"Código de estado 200 - Comentarios obtenidos correctamente\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"descripcionComentario\": \"Me encantó la vista. Lo recomiendo muchisimo\",\r\n  \"calificacion\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/comentarios/actualizar/{{idComentario}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"comentarios",
+								"actualizar",
+								"{{idComentario}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarBlogPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Código de estado 200 OK\r",
+									"pm.test(\"Código de estado 200 - Blog actualizado correctamente\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// 🧪 Parsear la respuesta JSON\r",
+									"const blog = pm.response.json();\r",
+									"\r",
+									"// ✅ Validar estructura esperada\r",
+									"pm.test(\"La respuesta contiene los campos esperados\", function () {\r",
+									"    pm.expect(blog).to.have.property(\"id\");\r",
+									"    pm.expect(blog).to.have.property(\"title\");\r",
+									"    pm.expect(blog).to.have.property(\"content\");\r",
+									"    pm.expect(blog).to.have.property(\"imagenes\").that.is.an(\"array\");\r",
+									"    pm.expect(blog).to.have.property(\"videos\").that.is.an(\"array\");\r",
+									"    pm.expect(blog).to.have.nested.property(\"autor.id\");\r",
+									"    pm.expect(blog).to.have.nested.property(\"autor.nombreUsuario\");\r",
+									"});\r",
+									"\r",
+									"// 💾 Guardar variables útiles\r",
+									"pm.environment.set(\"blogId\", blog.id);\r",
+									"pm.environment.set(\"blogTitulo\", blog.title);\r",
+									"pm.environment.set(\"blogAutorId\", blog.autor.id);\r",
+									"pm.environment.set(\"blogAutorNombre\", blog.autor.nombreUsuario);\r",
+									"\r",
+									"// 🧾 Mostrar resumen en consola\r",
+									"console.log(\"📝 Blog Actualizado:\");\r",
+									"console.log(\"🆔 ID:\", blog.id);\r",
+									"console.log(\"📌 Título:\", blog.title);\r",
+									"console.log(\"👤 Autor:\", blog.autor.nombreUsuario);\r",
+									"console.log(\"🖼️ Imágenes:\", blog.imagenes.join(\", \"));\r",
+									"console.log(\"🎥 Videos:\", blog.videos.join(\", \"));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Nueva caminata en la montaña\",\r\n  \"content\": \"Una experiencia única.\",\r\n  \"autorId\": 2,\r\n  \"imagenes\": [\"https://example.com/img1.jpg\", \"https://example.com/img2.jpg\"],\r\n  \"videos\": [\"https://example.com/video1.mp4\"],\r\n  \"contenidoTextoBlog\": \"Texto largo del blog opcional\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/blogs/{{blogId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"blogs",
+								"{{blogId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarPerfilUsuarioSuperAdmin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar estado 200 OK\r",
+									"pm.test(\"Código de estado 200 - Perfil SuperAdmin actualizado\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// 🧪 Parsear respuesta\r",
+									"const json = pm.response.json();\r",
+									"\r",
+									"// ✅ Validar campos clave\r",
+									"pm.test(\"La respuesta contiene los campos esperados\", function () {\r",
+									"    pm.expect(json).to.have.property(\"id\");\r",
+									"    pm.expect(json).to.have.property(\"rol\", \"SUPER_ADMIN\");\r",
+									"    pm.expect(json).to.have.property(\"correo\");\r",
+									"    pm.expect(json).to.have.property(\"nombreUsuario\");\r",
+									"});\r",
+									"\r",
+									"// 💾 Actualizar variables de entorno\r",
+									"pm.environment.set(\"superAdminId\", json.id);\r",
+									"pm.environment.set(\"superAdminCorreo\", json.correo);\r",
+									"pm.environment.set(\"superAdminNombre\", json.nombreUsuario);\r",
+									"pm.environment.set(\"superAdminTelefono\", json.telefono);\r",
+									"pm.environment.set(\"superAdminCedula\", json.cedula);\r",
+									"\r",
+									"// 🧾 Mostrar resumen en consola\r",
+									"console.log(\"✅ SuperAdmin actualizado:\");\r",
+									"console.log(\"Nombre:\", json.nombreUsuario);\r",
+									"console.log(\"Correo:\", json.correo);\r",
+									"console.log(\"Teléfono:\", json.telefono);\r",
+									"console.log(\"Cédula:\", json.cedula);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombreUsuario\": \"superadmin\",\r\n  \"correo\": \"admin@app.com\",\r\n  \"cedula\": 999999999,\r\n  \"telefono\": 1234567890,\r\n  \"password\": \"NuevaContrasenaSegura!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin/super/actualizar/perfil",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin",
+								"super",
+								"actualizar",
+								"perfil"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/api",
+			"type": "default"
+		},
+		{
+			"key": "RolUsuarioNatural",
+			"value": "NATURAL",
+			"type": "default"
+		},
+		{
+			"key": "rolUsuarioJuridico",
+			"value": "JURIDICO",
+			"type": "default"
+		},
+		{
+			"key": "rolUsuarioNatural",
+			"value": "NATURAL",
+			"type": "default"
+		},
+		{
+			"key": "rolUsuarioAdministradorAppComentarios",
+			"value": "ADMIN_COMENTARIOS",
+			"type": "default"
+		}
+	]
+}

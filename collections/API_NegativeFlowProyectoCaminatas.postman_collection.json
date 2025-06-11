@@ -1,0 +1,2636 @@
+{
+	"info": {
+		"_postman_id": "fcc6da13-5824-4ff0-bfc5-89ed79a4ad79",
+		"name": "API_NegativeFlowProyectoCaminatas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43952837",
+		"_collection_link": "https://juanlopez-7777951.postman.co/workspace/Juan-Lopez's-Workspace~36df4d65-9570-47d3-81b1-2ec3590bc811/collection/43952837-fcc6da13-5824-4ff0-bfc5-89ed79a4ad79?action=share&source=collection_link&creator=43952837"
+	},
+	"item": [
+		{
+			"name": "API_Usuarios Copy",
+			"item": [
+				{
+					"name": "UsuarioSuperAdmin",
+					"item": [
+						{
+							"name": "InvalidoLoginUsuarioSuperAdmin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Código de estado 500 (Usuario o contraseña inválidos)\", function () {\r",
+											"    pm.response.to.have.status(500);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"identificador\": \"admin@app.com\",\r\n  \"password\": \"IncorrectoPassword\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/admin/super/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"super",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InvalidoCrearUsuarioNatural",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+											"pm.test(\"Código de estado 400 \", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombreUsuario\": \"\",\r\n    \"rol\": \"\",\r\n    \"password\": \"claveSegura123\",\r\n    \"correo\": \"feviko8117@acedby.com\",\r\n    \"cedula\": 123456789,\r\n    \"telefono\": 31245678900\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/naturales",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"naturales"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InvalidoCrearUsuarioJuridico",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar código de estado\r",
+											"pm.test(\"Código de estado 400 Bad Request\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nombreUsuario\": \"\",\r\n  \"password\": \"claveFuerte456\",\r\n  \"correo\": \"contacto@empresaxaass.com\",\r\n  \"cedula\": 99988877,\r\n  \"telefono\": 3109876543,\r\n  \"rol\": \"\",\r\n  \"nombreEmpresa\": \"Empresa X S.A.\",\r\n  \"nombresParticipantes\": [\r\n    \"Ana Torres\",\r\n    \"Luis Díaz\",\r\n    \"Carlos Méndez\"\r\n  ]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/juridicos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"juridicos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InvalidoCrearUsuarioAdministradorComentarios",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar código 400 Bad Request\r",
+											"pm.test(\"Código de estado 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nombreUsuario\": \"mod_comentarios\",\r\n  \"password\": \"admin123\",\r\n  \"correo\": \"admin.comentarios@example.com\",\r\n  \"cedula\": 22334455,\r\n  \"telefono\": 3001122334,\r\n  \"rol\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/admin-comentarios/crear",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"admin-comentarios",
+										"crear"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InvalidoValidarTodosLosUsuarios",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Código de estado 403 -Sin credenciales\", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenInvalido}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/super/usuarios/verificar-todos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"super",
+										"usuarios",
+										"verificar-todos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InvalidoLoginUsuarioNatural",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Código de estado 500 - Usuario o contraseña inválidos\", function () {\r",
+											"    pm.response.to.have.status(500);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"identificador\": \"{{usuarioNaturalNombre}}\",\r\n  \"password\": \"ContraseñaIncorrecta\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/naturales/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"naturales",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InvalidoLoginUsuarioJuridico",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Código de estado 500 - Usuario o contraseña inválidos\", function () {\r",
+											"    pm.response.to.have.status(500);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"identificador\": \"empresaX\",\r\n  \"password\": \"ContraseñaIncorrecta\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/juridicos/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"juridicos",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InvalidoLoginUsuarioAdministradorComentarios",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Código de estado 500 - Usuario o contraseña inválidos\", function () {\r",
+											"    pm.response.to.have.status(500);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"identificador\": \"{{adminComentariosNombre}}\",\r\n  \"password\": \"ContraseñaIncorrecta\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/admin-comentarios/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"admin-comentarios",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InvalidoCrearSeguroNatural",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+											"pm.test(\"Código de estado 400 \", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"tipoSeguro\": \"\",\r\n  \"descripcionSeguro\": \"Seguro básico obligatorio para usuarios naturales\",\r\n  \"costoSeguro\": 15000.00\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/seguros/crear",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"seguros",
+										"crear"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InvalidoCrearSeguroJuridico",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+											"pm.test(\"Código de estado 400 \", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"tipoSeguro\": \"\",\r\n  \"descripcionSeguro\": \"Cobertura empresarial avanzada\",\r\n  \"costoSeguro\": 30000.00\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/seguros/crear",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"seguros",
+										"crear"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InvalidoCrearSeguroAdicional",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+											"pm.test(\"Código de estado 400 \", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"tipoSeguro\": \"\",\r\n  \"descripcionSeguro\": \"Cobertura contra accidentes extremos\",\r\n  \"costoSeguro\": 25000.00,\r\n  \"detalleAdicional\": \"Incluye transporte de emergencia y atención médica premium\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/seguros/crear",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"seguros",
+										"crear"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InvalidoCrearCaminata",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+											"pm.test(\"Código de estado 400 \", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nombreCaminata\": \"Vuelo del Cóndor\",\r\n  \"costoCaminata\": ,\r\n  \"patrocinador\": \"Juan\",\r\n  \"fecha\": \"2025-04-10\",\r\n  \"hora\": \"07:00:00\",\r\n  \"lugar\": \"Páramo de Sumapaz\",\r\n  \"duracion\": \"6 horas\",\r\n  \"descripcion\": \"Observación de flora y fauna endémica\",\r\n  \"dificultad\": \"BAJA\",\r\n  \"itinerario\": \"Inicio 7am, almuerzo 12pm, regreso 3pm\",\r\n  \"recomendaciones\": \"Llevar hidratación, botas y sombrero\",\r\n  \"mapa\": {\r\n    \"descripcion\": \"Mapa de la caminata Sumapaz\",\r\n    \"coordenadasGenerales\": [\r\n      { \"latitud\": 4.12345, \"longitud\": -74.12345 },\r\n      { \"latitud\": 4.54321, \"longitud\": -74.54321 }\r\n    ],\r\n    \"rutas\": [\r\n      {\r\n        \"nombreRuta\": \"Ruta principal\",\r\n        \"descripcionRuta\": \"Ruta escénica por el páramo\",\r\n        \"coordenadas\": [\r\n          { \"latitud\": 4.12345, \"longitud\": -74.12345 },\r\n          { \"latitud\": 4.54321, \"longitud\": -74.54321 }\r\n        ]\r\n      },\r\n      {\r\n        \"nombreRuta\": \"Ruta alternativa\",\r\n        \"descripcionRuta\": \"Ruta corta para principiantes\",\r\n        \"coordenadas\": [\r\n          { \"latitud\": 4.11111, \"longitud\": -74.11111 },\r\n          { \"latitud\": 4.22222, \"longitud\": -74.22222 }\r\n        ]\r\n      }\r\n    ]\r\n  },\r\n  \"galeria\": {\r\n    \"imagenPrincipal\": \"https://mi-servidor.com/imagenes/principal.jpg\",\r\n    \"imagenesGaleria\": [\r\n      \"https://mi-servidor.com/imagenes/1.jpg\",\r\n      \"https://mi-servidor.com/imagenes/2.jpg\"\r\n    ]\r\n  }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/caminatas",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"caminatas"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InvalidoCrearInscripcion",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+											"pm.test(\"Código de estado 400 \", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioNatural}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioJuridico}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"fechaInscripcion\": \"2025-06-01\",\r\n  \"estadoPago\": false,\r\n  \"idUsuario\": {{usuarioNaturalId}},\r\n  \"idCaminata\": \r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/inscripciones",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"inscripciones"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InvalidoCrearFactura",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 201 Bad Request\r",
+											"pm.test(\"Código de estado 400 \", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioNatural}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioJuridico}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"idInscripcion\": ,\r\n  \"seguroBasicoId\": 1,\r\n  \"segurosAdicionalesIds\": [3]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/facturas/generar",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"facturas",
+										"generar"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InvalidoRegistrarPago",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+											"pm.test(\"Código de estado 400 \", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioNatural}}",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioJuridico}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"facturaId\": ,\r\n  \"monto\": 160000,\r\n  \"metodo\": \"MOCK\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/pagos",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"pagos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InvalidoCrearComentario",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+											"pm.test(\"Código de estado 400 \", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioNatural}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"descripcionComentario\": \"Me encantó la vista. Lo recomiendo\",\r\n  \"calificacion\": 3,\r\n  \"idAutor\": {{usuarioNaturalId}},\r\n  \"idCaminata\": \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/comentarios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"comentarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AprobarComentarioPorId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+											"pm.test(\"Código de estado 403 \", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenInvalido}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/admin-comentarios/comentarios/aprobar/{{idComentario}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"admin-comentarios",
+										"comentarios",
+										"aprobar",
+										"{{idComentario}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RechazarComentarioPorId",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+											"pm.test(\"Código de estado 403 \", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenInvalido}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/admin-comentarios/comentarios/rechazar/{{idComentario}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"admin-comentarios",
+										"comentarios",
+										"rechazar",
+										"{{idComentario}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerUsuarios",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+											"pm.test(\"Código de estado 403 \", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenInvalido}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/super/usuarios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"super",
+										"usuarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerUsuariosPorRol",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+											"pm.test(\"Código de estado 403 \", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenInvalido}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/super/usuarios/rol/{{rolUsuarioNatural}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"super",
+										"usuarios",
+										"rol",
+										"{{rolUsuarioNatural}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerUsuariosNaturales",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+											"pm.test(\"Código de estado 403 \", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"rolUsuarioNatural\", \"NATURAL\");\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenInvalido}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/super/usuarios/rol/{{rolUsuarioNatural}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"super",
+										"usuarios",
+										"rol",
+										"{{rolUsuarioNatural}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerUsuariosJuridicos",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+											"pm.test(\"Código de estado 403 \", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"rolUsuarioJuridico\", \"JURIDICO\");\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenInvalido}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/super/usuarios/rol/{{rolUsuarioJuridico}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"super",
+										"usuarios",
+										"rol",
+										"{{rolUsuarioJuridico}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerUsuariosAdministradoresComentariosApp",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+											"pm.test(\"Código de estado 403 \", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.environment.set(\"rolUsuarioAdministradorAppComentarios\", \"ADMIN_COMENTARIOS\");\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenInvalido}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/admin/super/usuarios/rol/{{rolUsuarioAdministradorAppComentarios}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"admin",
+										"super",
+										"usuarios",
+										"rol",
+										"{{rolUsuarioAdministradorAppComentarios}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "UsuarioAdministradorComentariosApp",
+					"item": [
+						{
+							"name": "ObtenerPerfilUsuarioAdministradorComentariosApp",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+											"pm.test(\"Código de estado 403 \", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenInvalido}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/admin-comentarios/perfil",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"admin-comentarios",
+										"perfil"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerListaComentarios",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 500 Access Denied\r",
+											"pm.test(\"Código de estado 500 \", function () {\r",
+											"    pm.response.to.have.status(500);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenInvalido}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/comentarios",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"comentarios"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerAllComentarios",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+											"pm.test(\"Código de estado 403 \", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenInvalido}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/admin-comentarios/comentarios/{{IdInvalido}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"admin-comentarios",
+										"comentarios",
+										"{{IdInvalido}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerComentario",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+											"pm.test(\"Código de estado 400 \", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenUsuarioAdminComentarios}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/admin-comentarios/comentarios/{{InvalidoidComentario}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"admin-comentarios",
+										"comentarios",
+										"{{InvalidoidComentario}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerListaComentariosPorIdCaminata",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+											"pm.test(\"Código de estado 403 \", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenInvalido}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/admin-comentarios/comentarios/caminata/{{idCaminata}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"admin-comentarios",
+										"comentarios",
+										"caminata",
+										"{{idCaminata}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ObtenerComentariosPorCaminataYIdComentario",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+											"pm.test(\"Código de estado 403 \", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenInvalido}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/admin-comentarios/comentarios/caminata/{{idCaminata}}/comentario/{{idComentario}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"admin-comentarios",
+										"comentarios",
+										"caminata",
+										"{{idCaminata}}",
+										"comentario",
+										"{{idComentario}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "UsuarioNatural",
+					"item": [
+						{
+							"name": "ObtenerPerfilUsuarioNatural",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+											"pm.test(\"Código de estado 403 \", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenInvalido}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/naturales/perfil",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"naturales",
+										"perfil"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "UsuarioJuridico",
+					"item": [
+						{
+							"name": "ObtenerPerfilUsuarioJuridico",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+											"pm.test(\"Código de estado 403 \", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{tokenInvalido}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/usuarios/juridicos/perfil",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"usuarios",
+										"juridicos",
+										"perfil"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "API_Seguros Copy",
+			"item": [
+				{
+					"name": "ObtenerSeguros",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+									"pm.test(\"Código de estado 403 \", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenInvalido}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/seguros",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"seguros"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerSegurosPorId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+									"pm.test(\"Código de estado 403 \", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenInvalido}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/seguros/{{idSeguroBasico}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"seguros",
+								"{{idSeguroBasico}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API_Caminatas Copy",
+			"item": [
+				{
+					"name": "ObtenerCaminatas",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 500 Access Denied\r",
+									"pm.test(\"Código de estado 500 \", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenInvalido}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/caminatas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"caminatas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerCaminatasPorId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 500 Access Denied\r",
+									"pm.test(\"Código de estado 500 \", function () {\r",
+									"    pm.response.to.have.status(500);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/caminatas/{{idCaminata}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"caminatas",
+								"{{idCaminata}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API_Transacciones Copy",
+			"item": [
+				{
+					"name": "ObtenerInscripciones",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar código de estado\r",
+									"pm.test(\"Código de estado 403 \", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/inscripciones/{{idInvalido}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"inscripciones",
+								"{{idInvalido}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerInscripcionPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+									"pm.test(\"Código de estado 403 \", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/inscripciones/{{idInvalido}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"inscripciones",
+								"{{idInvalido}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerPagos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+									"pm.test(\"Código de estado 400 \", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/pagos/{{idInvalido}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"pagos",
+								"{{idInvalido}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerPagoPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+									"pm.test(\"Código de estado 400 \", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/pagos/{{pagoIdInvalido}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"pagos",
+								"{{pagoIdInvalido}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerFacturas",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+									"pm.test(\"Código de estado 400 \", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/facturas/{{Invalitshit}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"facturas",
+								"{{Invalitshit}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerFacturaPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+									"pm.test(\"Código de estado 400 \", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/facturas/{{InvalidfacturaId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"facturas",
+								"{{InvalidfacturaId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API_ContenidosCaminatas Copy",
+			"item": [
+				{
+					"name": "CrearBlog",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 400 Bad Requuest\r",
+									"pm.test(\"Código de estado 400 \", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/blogs",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"blogs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CrearGaleria",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+									"pm.test(\"Código de estado 400 \", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer{{tokenInvalido}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/galerias",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"galerias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CrearMapa",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+									"pm.test(\"Código de estado 400 \", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{TokenUsuarioNatural}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/mapas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"mapas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerBlogs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+									"pm.test(\"Código de estado 400 \", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/blogs/{{A}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"blogs",
+								"{{A}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerBlogPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+									"pm.test(\"Código de estado 400 \", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/blogs/{{InvalidblogId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"blogs",
+								"{{InvalidblogId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerGalerias",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+									"pm.test(\"Código de estado 400 \", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/galerias/{{Invalido}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"galerias",
+								"{{Invalido}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerGaleriasPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+									"pm.test(\"Código de estado 400 \", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/galerias/{{InvalidogaleriaId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"galerias",
+								"{{InvalidogaleriaId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerComentarios",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+									"pm.test(\"Código de estado 400 \", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/comentarios/{{Invalido}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"comentarios",
+								"{{Invalido}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ObtenerComentarioPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 400 Bad Request\r",
+									"pm.test(\"Código de estado 400 \", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenUsuarioSuperAdmin}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/comentarios/{{InvalidoidComentario}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"comentarios",
+								"{{InvalidoidComentario}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "API_Actualizations Copy",
+			"item": [
+				{
+					"name": "ActualizarUsuarioJuridico",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+									"pm.test(\"Código de estado 403 \", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenInvalido}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombreUsuario\": \"empresaX\",\r\n  \"password\": \"claveFuerte456\",\r\n  \"correo\": \"contacto@empresaxaass.com\",\r\n  \"cedula\": 99988877,\r\n  \"telefono\": 3109876543,\r\n  \"rol\": \"JURIDICO\",\r\n  \"nombreEmpresa\": \"Empresa X S.A.\",\r\n  \"nombresParticipantes\": [\r\n    \"Ana Torres\",\r\n    \"Luis Díaz\",\r\n    \"Carlos Méndez\"\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuarios/juridicos/actualizar",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios",
+								"juridicos",
+								"actualizar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarUsuarioJuridicoPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+									"pm.test(\"Código de estado 403 \", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenInvalido}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombreUsuario\": \"empresaXactualizada\",\r\n  \"password\": \"nuevaClaveFuerte456\",\r\n  \"correo\": \"contacto@empresa-actualizada.com\",\r\n  \"cedula\": 99887766,\r\n  \"telefono\": 3109998888,\r\n  \"rol\": \"JURIDICO\",\r\n  \"nombreEmpresa\": \"Empresa Actualizada S.A.\",\r\n  \"nombresParticipantes\": [\r\n    \"Carlos Sánchez\",\r\n    \"Laura Gómez\",\r\n    \"Esteban Ramírez\"\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin/super/usuarios/juridico/{{usuarioJuridicoId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin",
+								"super",
+								"usuarios",
+								"juridico",
+								"{{usuarioJuridicoId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarUsuarioAdministradorComentarios",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+									"pm.test(\"Código de estado 403 \", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenInvalido}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombreUsuario\": \"mod_comentarios\",\r\n  \"password\": \"admin123\",\r\n  \"correo\": \"admin.comentarios@example.com\",\r\n  \"cedula\": 22334455,\r\n  \"telefono\": 3001122334,\r\n  \"rol\": \"ADMIN_COMENTARIOS\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuarios/admin-comentarios/actualizar-perfil",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios",
+								"admin-comentarios",
+								"actualizar-perfil"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarUsuarioAdministradorComentariosPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+									"pm.test(\"Código de estado 403 \", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenInvalido}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombreUsuario\": \"mod_actualizado\",\r\n  \"password\": \"nuevaClave123!\",\r\n  \"correo\": \"moderador.actualizado@example.com\",\r\n  \"cedula\": 123123123,\r\n  \"telefono\": 3003003030\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin/super/usuarios/admin-comentarios/{{adminComentariosId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin",
+								"super",
+								"usuarios",
+								"admin-comentarios",
+								"{{adminComentariosId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarUsuarioNatural",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+									"pm.test(\"Código de estado 403 \", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenInvalido}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombreUsuario\": \"juanperez\",\r\n    \"rol\": \"NATURAL\",\r\n    \"password\": \"claveSegura1234\",\r\n    \"correo\": \"{{usuarioNaturalCorreo}}\",//En realidad aquí podriamos poner cualquier correo pero eso rompe el token y el flujo de las pruebas\r\n    \"cedula\": 12345678,\r\n    \"telefono\": 3124567890\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/usuarios/naturales/actualizar-perfil",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"usuarios",
+								"naturales",
+								"actualizar-perfil"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarUsuarioNaturalPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+									"pm.test(\"Código de estado 403 \", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenInvalido}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombreUsuario\": \"juanprez\",\r\n    \"rol\": \"NATURAL\",\r\n    \"password\": \"claveSegura123\",\r\n    \"correo\": \"juan.peez@example.com\",\r\n    \"cedula\": 123456789,\r\n    \"telefono\": 31245678900\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin/super/usuarios/natural/{{usuarioNaturalId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin",
+								"super",
+								"usuarios",
+								"natural",
+								"{{usuarioNaturalId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarCaminataPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+									"pm.test(\"Código de estado 403 \", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenInvalido}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombreCaminata\": \"Vuelo del Cóndor\",\r\n  \"costoCaminata\": 120000,\r\n  \"patrocinador\": \"Juan\",\r\n  \"fecha\": \"2025-04-10\",\r\n  \"hora\": \"07:00:00\",\r\n  \"lugar\": \"Páramo de Sumapaz\",\r\n  \"duracion\": \"6 horas\",\r\n  \"descripcion\": \"Observación de flora y fauna endémica\",\r\n  \"dificultad\": \"BAJA\",\r\n  \"itinerario\": \"Inicio 7am, almuerzo 12pm, regreso 3pm\",\r\n  \"recomendaciones\": \"Llevar hidratación, botas y sombrero\",\r\n  \"mapa\": {\r\n    \"descripcion\": \"Mapa de la caminata Sumapaz\",\r\n    \"coordenadasGenerales\": [\r\n      { \"latitud\": 4.12345, \"longitud\": -74.12345 },\r\n      { \"latitud\": 4.54321, \"longitud\": -74.54321 }\r\n    ],\r\n    \"rutas\": [\r\n      {\r\n        \"nombreRuta\": \"Ruta principal\",\r\n        \"descripcionRuta\": \"Ruta escénica por el páramo\",\r\n        \"coordenadas\": [\r\n          { \"latitud\": 4.12345, \"longitud\": -74.12345 },\r\n          { \"latitud\": 4.54321, \"longitud\": -74.54321 }\r\n        ]\r\n      },\r\n      {\r\n        \"nombreRuta\": \"Ruta alternativa\",\r\n        \"descripcionRuta\": \"Ruta corta para principiantes\",\r\n        \"coordenadas\": [\r\n          { \"latitud\": 4.11111, \"longitud\": -74.11111 },\r\n          { \"latitud\": 4.22222, \"longitud\": -74.22222 }\r\n        ]\r\n      }\r\n    ]\r\n  },\r\n  \"galeria\": {\r\n    \"imagenPrincipal\": \"https://mi-servidor.com/imagenes/principal.jpg\",\r\n    \"imagenesGaleria\": [\r\n      \"https://mi-servidor.com/imagenes/1.jpg\",\r\n      \"https://mi-servidor.com/imagenes/2.jpg\"\r\n    ]\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/caminatas/{{idCaminata}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"caminatas",
+								"{{idCaminata}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarComentarioPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+									"pm.test(\"Código de estado 403 \", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenInvalido}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"descripcionComentario\": \"Me encantó la vista. Lo recomiendo muchisimo\",\r\n  \"calificacion\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/comentarios/actualizar/{{idComentario}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"comentarios",
+								"actualizar",
+								"{{idComentario}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarBlogPorID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+									"pm.test(\"Código de estado 403 \", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenInvalido}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Nueva caminata en la montaña\",\r\n  \"content\": \"Una experiencia única.\",\r\n  \"autorId\": 2,\r\n  \"imagenes\": [\"https://example.com/img1.jpg\", \"https://example.com/img2.jpg\"],\r\n  \"videos\": [\"https://example.com/video1.mp4\"],\r\n  \"contenidoTextoBlog\": \"Texto largo del blog opcional\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/blogs/{{blogId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"blogs",
+								"{{blogId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarPerfilUsuarioSuperAdmin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Verificar que la respuesta sea 403 Bad Credentials\r",
+									"pm.test(\"Código de estado 403 \", function () {\r",
+									"    pm.response.to.have.status(403);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{tokenInvalido}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombreUsuario\": \"superadmin\",\r\n  \"correo\": \"admin@app.com\",\r\n  \"cedula\": 999999999,\r\n  \"telefono\": 1234567890,\r\n  \"password\": \"NuevaContrasenaSegura!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/admin/super/actualizar/perfil",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"admin",
+								"super",
+								"actualizar",
+								"perfil"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
